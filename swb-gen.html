@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>WhatsApp E-commerce Code Generator</title>
+    <!-- CodeMirror CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/theme/hopscotch.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+        integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/simplebar@latest/dist/simplebar.css" />
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#00FF99',
+                        secondary: '#007370',
+                        dark: '#18181B',
+                        darker: '#09090B',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Outfit', sans-serif;
+        }
+        .CodeMirror {
+            height: 100%;
+            max-height: calc(100vh - 2.5rem);
+            overflow: none;
+        }
+    </style>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/js-beautify/1.14.9/beautify-html.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/simplebar@latest/dist/simplebar.min.js"></script>
+    <script src="https://unpkg.com/alpinejs" defer></script>
+
+</head>
+
+<body>
+    <main class="w-full h-screen bg-darker flex flex-col">
+        <!-- <section class="min-h-10 bg-dark border-b border-darker"></section> -->
+        <section class="flex-grow flex flex-col lg:flex-row max-h-[calc(100vh-0rem)] overflow-hidden"
+            x-data="{ panel: 'store' }">
+            <section class="min-w-12 flex flex-col bg-dark text-white/40 border-r border-darker text-sm">
+                <button type="button" class="hover:text-primary flex items-center justify-center aspect-square w-full group" onclick="alert('SenangWebs Zeroth')">
+                    <img src="https://use.senangwebs.com/img/app_icon_inverse.png" alt="" class="w-6 h-6 rounded-full grayscale group-hover:grayscale-0">
+                </button>
+                <button class="aspect-square w-full flex items-center justify-center" x-on:click="panel = 'store'"
+                    x-bind:class="panel === 'store' ? 'bg-darker text-primary' : ''">
+                    <i class="fas fa-shopping-cart"></i>
+                </button>
+                <button class="aspect-square w-full flex items-center justify-center" x-on:click="panel = 'products'"
+                    x-bind:class="panel === 'products' ? 'bg-darker text-primary' : ''">
+                    <i class="fas fa-box"></i>
+                </button>
+                <button class="aspect-square w-full flex items-center justify-center" x-on:click="panel = 'custom'"
+                    x-bind:class="panel === 'custom' ? 'bg-darker text-primary' : ''">
+                    <i class="fas fa-stream"></i>
+                </button>
+            </section>
+
+            <aside id="side-panel" class="w-full max-w-[40rem] text-white/50 overflow-none bg-dark" data-simplebar>
+                <!-- Store Settings -->
+                <div x-show="panel === 'store'">
+                    <!-- Store Settings Form -->
+                    <div class="bg-dark" x-data="{ open: true }">
+                        <div class="text-sm text-white/50 font-medium h-10 bg-[#131316] px-4 py-3 flex justify-between items-center cursor-pointer"
+                            x-on:click="open = !open">
+                            <span>Store Settings</span>
+                            <i class="fas fa-caret-right" x-show="!open"></i>
+                            <i class="fas fa-caret-down" x-show="open"></i>
+                        </div>
+                        <div class="grid grid-cols-2 gap-2 p-2" x-show="open">
+                            <div>
+                                <label class="block text-sm">Store ID</label>
+                                <input type="text" id="storeId" placeholder="e.g., mak-cik-sarah"
+                                    class="mt-1 block w-full rounded-md bg-[#131316] px-2 py-1 text-sm h-8 flex items-center h-8 flex items-center" />
+                            </div>
+                            <div>
+                                <label class="block text-sm">Store Name</label>
+                                <input type="text" id="storeName" placeholder="e.g., Mak Cik Sarah's Kuih-Muih"
+                                    class="mt-1 block w-full rounded-md bg-[#131316] px-2 py-1 text-sm h-8 flex items-center" />
+                            </div>
+                            <div>
+                                <label class="block text-sm">WhatsApp Number</label>
+                                <input type="text" id="whatsappNumber" placeholder="e.g., +60123456789"
+                                    class="mt-1 block w-full rounded-md bg-[#131316] px-2 py-1 text-sm h-8 flex items-center" />
+                            </div>
+                            <div>
+                                <label class="block text-sm">Currency</label>
+                                <select id="currency"
+                                    class="mt-1 block w-full rounded-md bg-[#131316] px-2 py-1 text-sm h-8 flex items-center">
+                                    <option value="USD">USD - US Dollar</option>
+                                    <option value="EUR">EUR - Euro</option>
+                                    <option value="GBP">GBP - British Pound</option>
+                                    <option value="JPY">JPY - Japanese Yen</option>
+                                    <option value="CNY">CNY - Chinese Yuan</option>
+                                    <option value="MYR">MYR - Malaysian Ringgit</option>
+                                    <option value="SGD">SGD - Singapore Dollar</option>
+                                    <option value="AUD">AUD - Australian Dollar</option>
+                                    <option value="CAD">CAD - Canadian Dollar</option>
+                                    <option value="INR">INR - Indian Rupee</option>
+                                    <option value="KRW">KRW - South Korean Won</option>
+                                    <option value="THB">THB - Thai Baht</option>
+                                    <option value="PHP">PHP - Philippine Peso</option>
+                                    <option value="IDR">IDR - Indonesian Rupiah</option>
+                                    <option value="VND">VND - Vietnamese Dong</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm">Primary Color</label>
+                                <input type="color" id="primaryColor" value="#166534"
+                                    class="mt-1 block w-full rounded-md bg-[#131316] px-2 py-1 text-sm h-8 flex items-center" />
+                            </div>
+                            <div>
+                                <label class="block text-sm">Secondary Color</label>
+                                <input type="color" id="secondaryColor" value="#DC2626"
+                                    class="mt-1 block w-full rounded-md bg-[#131316] px-2 py-1 text-sm h-8 flex items-center" />
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Additional Settings Form -->
+                    <div class="bg-dark" x-data="{ open: true }">
+                        <div class="text-sm text-white/50 font-medium h-10 bg-[#131316] px-4 py-3 flex justify-between items-center cursor-pointer"
+                            x-on:click="open = !open">
+                            <span>Additional Settings</span>
+                            <i class="fas fa-caret-right" x-show="!open"></i>
+                            <i class="fas fa-caret-down" x-show="open"></i>
+                        </div>
+                        <div class="grid grid-cols-2 gap-2 p-2" x-show="open">
+                            <div>
+                                <label class="block text-sm">Enable Cart</label>
+                                <select id="enableCart"
+                                    class="mt-1 block w-full rounded-md bg-[#131316] px-2 py-1 text-sm h-8 flex items-center">
+                                    <option value="true">Yes</option>
+                                    <option value="false">No</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm">Enable Floating Cart</label>
+                                <select id="enableFloatingCart"
+                                    class="mt-1 block w-full rounded-md bg-[#131316] px-2 py-1 text-sm h-8 flex items-center">
+                                    <option value="true">Yes</option>
+                                    <option value="false">No</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm">Checkout Title</label>
+                                <input type="text" id="checkoutTitle" placeholder="e.g., Your Order"
+                                    class="mt-1 block w-full rounded-md bg-[#131316] px-2 py-1 text-sm h-8 flex items-center" />
+                            </div>
+                            <div>
+                                <label class="block text-sm">Billing Title</label>
+                                <input type="text" id="billingTitle" placeholder="e.g., Delivery Details"
+                                    class="mt-1 block w-full rounded-md bg-[#131316] px-2 py-1 text-sm h-8 flex items-center" />
+                            </div>
+                            <div>
+                                <label class="block text-sm">Submit Button Text</label>
+                                <input type="text" id="submitText" placeholder="e.g., Place Order on WhatsApp"
+                                    class="mt-1 block w-full rounded-md bg-[#131316] px-2 py-1 text-sm h-8 flex items-center" />
+                            </div>
+                            <div>
+                                <label class="block text-sm">Enable Billing Form</label>
+                                <select id="enableBilling"
+                                    class="mt-1 block w-full rounded-md bg-[#131316] px-2 py-1 text-sm h-8 flex items-center">
+                                    <option value="true">Yes</option>
+                                    <option value="false">No</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Product Management -->
+                <div x-show="panel === 'products'">
+                    <div class="bg-dark" x-data="{ open: true }">
+                        <div class="text-sm text-white/50 font-medium h-10 bg-[#131316] px-4 py-3 flex justify-between items-center cursor-pointer"
+                            x-on:click="open = !open">
+                            <span>Product Management</span>
+                            <i class="fas fa-caret-right" x-show="!open"></i>
+                            <i class="fas fa-caret-down" x-show="open"></i>
+                        </div>
+                        <form id="productForm" class="space-y-4 p-2" x-show="open">
+                            <div class="grid grid-cols-2 gap-2">
+                                <div>
+                                    <label class="block text-sm">Product SKU</label>
+                                    <input type="text" id="productSku" placeholder="e.g., KM001"
+                                        class="mt-1 block w-full rounded-md bg-[#131316] px-2 py-1 text-sm h-8 flex items-center" />
+                                </div>
+                                <div>
+                                    <label class="block text-sm">Product Name</label>
+                                    <input type="text" id="productName" placeholder="e.g., Kuih Lapis"
+                                        class="mt-1 block w-full rounded-md bg-[#131316] px-2 py-1 text-sm h-8 flex items-center" />
+                                </div>
+                                <div>
+                                    <label class="block text-sm">Product Price</label>
+                                    <input type="number" id="productPrice" placeholder="e.g., 15.00"
+                                        class="mt-1 block w-full rounded-md bg-[#131316] px-2 py-1 text-sm h-8 flex items-center" />
+                                </div>
+                                <div>
+                                    <label class="block text-sm">Product Image URL</label>
+                                    <input type="text" id="productImage"
+                                        placeholder="e.g., https://example.com/image.jpg"
+                                        class="mt-1 block w-full rounded-md bg-[#131316] px-2 py-1 text-sm h-8 flex items-center" />
+                                </div>
+                                <div class="col-span-2">
+                                    <label class="block text-sm">Product Description</label>
+                                    <textarea id="productDescription" rows="3"
+                                        placeholder="e.g., Colorful steamed layer cake made with rice flour and coconut milk."
+                                        class="mt-1 block w-full rounded-md bg-[#131316] px-2 py-1 text-sm flex items-center"></textarea>
+                                </div>
+                            </div>
+                            <div class="flex justify-center">
+                                <button type="button" onclick="addProduct()"
+                                    class="bg-primary text-dark px-4 py-2 rounded-md text-sm font-medium hover:opacity-80">
+                                    Save Product
+                                </button>
+                            </div>
+
+                        </form>
+                        <div id="productList" class="mt-4 space-y-2 px-2"></div>
+                    </div>
+                </div>
+                <!-- Custom Fields -->
+                <div x-show="panel === 'custom'">
+                    <!-- Custom Fields Management -->
+                    <div class="bg-dark" x-data="{ open: true }">
+                        <div class="text-sm text-white/50 font-medium h-10 bg-[#131316] px-4 py-3 flex justify-between items-center cursor-pointer"
+                            x-on:click="open = !open">
+                            <span>Custom Fields</span>
+                            <i class="fas fa-caret-right" x-show="!open"></i>
+                            <i class="fas fa-caret-down" x-show="open"></i>
+                        </div>
+                        <div id="customFieldsForm" class="space-y-4 p-2" x-show="open">
+                            <div class="grid grid-cols-1 md:grid-cols-4 gap-2">
+                                <div>
+                                    <label class="block text-sm">Field Name</label>
+                                    <input type="text" id="fieldName" placeholder="e.g., delivery_time"
+                                        class="mt-1 block w-full rounded-md bg-[#131316] px-2 py-1 text-sm h-8 flex items-center" />
+                                </div>
+                                <div>
+                                    <label class="block text-sm">Field Type</label>
+                                    <select id="fieldType"
+                                        class="mt-1 block w-full rounded-md bg-[#131316] px-2 py-1 text-sm h-8 flex items-center">
+                                        <option value="text">Text</option>
+                                        <option value="textarea">Textarea</option>
+                                        <option value="select">Select</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-sm">Placeholder</label>
+                                    <input type="text" id="fieldPlaceholder"
+                                        placeholder="e.g., Preferred Delivery Time"
+                                        class="mt-1 block w-full rounded-md bg-[#131316] px-2 py-1 text-sm h-8 flex items-center" />
+                                </div>
+                                <div>
+                                    <label class="block text-sm">Required</label>
+                                    <select id="fieldRequired"
+                                        class="mt-1 block w-full rounded-md bg-[#131316] px-2 py-1 text-sm h-8 flex items-center">
+                                        <option value="true">Yes</option>
+                                        <option value="false">No</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div id="fieldOptionsContainer" class="hidden">
+                                <label class="block text-sm">Options (comma-separated)</label>
+                                <input type="text" id="fieldOptions" placeholder="e.g., 8am-10am, 10am-12pm"
+                                    class="mt-1 block w-full rounded-md bg-[#131316] px-2 py-1 text-sm h-8 flex items-center" />
+                            </div>
+                            <div class="flex justify-center">
+                                <button type="button" onclick="addCustomField()"
+                                    class="bg-primary text-dark px-4 py-2 rounded-md text-sm font-medium hover:opacity-80">
+                                    Add Custom Field
+                                </button>
+                            </div>
+                        </div>
+                        <div id="customFieldsList" class="space-y-2 p-2"></div>
+                    </div>
+                </div>
+            </aside>
+
+            <div class="flex flex-col flex-grow text-white" x-data="{ tab: 'html' }">
+                <div class="flex gap-2 bg-dark text-xs h-10 font-semibold">
+                    <button class="px-3 h-10 flex items-center justify-center text-neutral-400"
+                        x-bind:class="tab == 'html' ? 'border-b-2 border-primary text-primary' : ''"
+                        @click="tab = 'html'">HTML</button>
+                    <button class="px-3 h-10 flex items-center justify-center text-neutral-400"
+                        x-bind:class="tab == 'json' ? 'border-b-2 border-primary text-primary' : ''"
+                        @click="tab = 'json'">JSON</button>
+                    <div class="flex justify-center items-center mx-auto">
+                        <!-- <select id="swcbuilder-resize"
+                            class="h-6 border border-dark px-3 text-neutral-400 bg-white bg-opacity-10 rounded"
+                            onchange="resizeEditCode()">
+                            <option value="25">25%</option>
+                            <option value="50">50%</option>
+                            <option value="100" selected="">100%</option>
+                        </select> -->
+                    </div>
+                    <div class="flex items-center">
+                        <button id="swcbuilder-save-btn"
+                            class="px-3 h-10 flex gap-2 items-center justify-center text-neutral-400 bg-black bg-opacity-20 hover:bg-opacity-80 hover:text-primary"><i
+                                class="fas fa-save"></i>Copy</button>
+                    </div>
+                </div>
+                <!-- Generated Code -->
+                <div x-show="tab == 'html'" class="flex-grow flex flex-col">
+                    <textarea id="generatedCode" class="hidden"></textarea>
+                    <div id="codeMirrorHTML" class="flex-grow"></div>
+                </div>
+
+                <!-- Generated JSON -->
+                <div x-show="tab == 'json'" class="flex-grow flex flex-col">
+                    <textarea id="generatedJson" class="hidden"></textarea>
+                    <div id="codeMirrorJSON" class="flex-grow"></div>
+                </div>
+            </div>
+        </section>
+        <!-- <section class="min-h-12 bg-dark"></section> -->
+    </main>
+
+    <!-- CodeMirror JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/mode/xml/xml.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/mode/htmlmixed/htmlmixed.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/mode/javascript/javascript.min.js"></script>
+    <script>
+        let products = [];
+        let customFields = [];
+
+        // Default store settings
+        const defaultStoreSettings = {
+            storeId: "mak-cik-sarah",
+            storeName: "Mak Cik Sarah's Kuih-Muih",
+            whatsappNumber: "+60123456789",
+            primaryColor: "#166534",
+            secondaryColor: "#DC2626",
+            currency: "MYR",
+            enableCart: "true",
+            enableFloatingCart: "true",
+            checkoutTitle: "Your Order",
+            billingTitle: "Delivery Details",
+            submitText: "Place Order on WhatsApp",
+            enableBilling: "true",
+        };
+
+        // Set default values for store settings
+        document.getElementById("storeId").value = defaultStoreSettings.storeId;
+        document.getElementById("storeName").value =
+            defaultStoreSettings.storeName;
+        document.getElementById("whatsappNumber").value =
+            defaultStoreSettings.whatsappNumber;
+        document.getElementById("primaryColor").value =
+            defaultStoreSettings.primaryColor;
+        document.getElementById("secondaryColor").value =
+            defaultStoreSettings.secondaryColor;
+        document.getElementById("currency").value = defaultStoreSettings.currency;
+        document.getElementById("enableCart").value =
+            defaultStoreSettings.enableCart;
+        document.getElementById("enableFloatingCart").value =
+            defaultStoreSettings.enableFloatingCart;
+        document.getElementById("checkoutTitle").value =
+            defaultStoreSettings.checkoutTitle;
+        document.getElementById("billingTitle").value =
+            defaultStoreSettings.billingTitle;
+        document.getElementById("submitText").value =
+            defaultStoreSettings.submitText;
+        document.getElementById("enableBilling").value =
+            defaultStoreSettings.enableBilling;
+
+        // Show/hide options input for select fields
+        document.getElementById("fieldType").addEventListener("change", (e) => {
+            document
+                .getElementById("fieldOptionsContainer")
+                .classList.toggle("hidden", e.target.value !== "select");
+        });
+
+        // Add event listeners to update code on the fly
+        document
+            .querySelectorAll(
+                "#storeId, #storeName, #whatsappNumber, #primaryColor, #secondaryColor, #currency, #enableCart, #enableFloatingCart, #checkoutTitle, #billingTitle, #submitText, #enableBilling"
+            )
+            .forEach((input) => {
+                input.addEventListener("input", generateOutput);
+            });
+
+        // Initialize CodeMirror for HTML and JSON
+        const codeMirrorHTML = CodeMirror(
+            document.getElementById("codeMirrorHTML"), {
+                mode: "htmlmixed",
+                theme: "hopscotch",
+                lineNumbers: true,
+                readOnly: true,
+            }
+        );
+
+        const codeMirrorJSON = CodeMirror(
+            document.getElementById("codeMirrorJSON"), {
+                mode: "javascript",
+                theme: "hopscotch",
+                lineNumbers: true,
+                readOnly: true,
+            }
+        );
+
+        // Function to beautify code by removing unnecessary spaces and tabs
+        function beautifyCode(code) {
+            return code
+                .replace(/\n\s*\n/g, "\n") // Remove empty lines
+                .replace(/\s{2,}/g, " ") // Replace multiple spaces with a single space
+                .replace(/\t/g, "") // Remove tabs
+                .trim(); // Remove leading and trailing spaces
+        }
+
+        function addProduct() {
+            const product = {
+                sku: document.getElementById("productSku").value,
+                name: document.getElementById("productName").value,
+                price: document.getElementById("productPrice").value,
+                image: document.getElementById("productImage").value,
+                description: document.getElementById("productDescription").value,
+            };
+            products.push(product);
+            renderProducts();
+            document.getElementById("productForm").reset(); // Clear the form
+            generateOutput(); // Regenerate the output
+        }
+
+        function renderProducts() {
+            const container = document.getElementById("productList");
+            container.innerHTML = products
+                .map(
+                    (product, index) => `
+                <div class="flex items-center justify-between p-2 bg-white/10 rounded-md">
+                    <span>${product.name} (${product.sku}) - ${product.price}</span>
+                    <div>
+                        <button onclick="editProduct(${index})" class="text-blue-500 hover:text-blue-700">Edit</button>
+                        <button onclick="deleteProduct(${index})" class="text-red-500 hover:text-red-700 ml-2">Delete</button>
+                    </div>
+                </div>
+            `
+                )
+                .join("");
+        }
+
+        function editProduct(index) {
+            const product = products[index];
+            document.getElementById("productSku").value = product.sku;
+            document.getElementById("productName").value = product.name;
+            document.getElementById("productPrice").value = product.price;
+            document.getElementById("productImage").value = product.image;
+            document.getElementById("productDescription").value =
+                product.description;
+            products.splice(index, 1); // Remove the product from the list
+            renderProducts();
+            generateOutput();
+        }
+
+        function deleteProduct(index) {
+            products.splice(index, 1);
+            renderProducts();
+            generateOutput();
+        }
+
+        function addCustomField() {
+            const field = {
+                name: document.getElementById("fieldName").value,
+                type: document.getElementById("fieldType").value,
+                placeholder: document.getElementById("fieldPlaceholder").value,
+                required: document.getElementById("fieldRequired").value === "true",
+                options: document.getElementById("fieldType").value === "select" ?
+                    document.getElementById("fieldOptions").value.split(",") : [],
+            };
+            customFields.push(field);
+            renderCustomFields();
+            generateOutput();
+        }
+
+        function renderCustomFields() {
+            const container = document.getElementById("customFieldsList");
+            container.innerHTML = customFields
+                .map(
+                    (field, index) => `
+                <div class="flex items-center justify-between p-2 bg-white/10 rounded-md">
+                    <span>${field.name} (${field.type})</span>
+                    <button onclick="removeCustomField(${index})" class="text-red-500 hover:text-red-700">Remove</button>
+                </div>
+            `
+                )
+                .join("");
+        }
+
+        function removeCustomField(index) {
+            customFields.splice(index, 1);
+            renderCustomFields();
+            generateOutput();
+        }
+
+        function generateOutput() {
+            const storeId =
+                document.getElementById("storeId").value ||
+                defaultStoreSettings.storeId;
+            const storeName =
+                document.getElementById("storeName").value ||
+                defaultStoreSettings.storeName;
+            const whatsappNumber =
+                document.getElementById("whatsappNumber").value ||
+                defaultStoreSettings.whatsappNumber;
+            const primaryColor =
+                document.getElementById("primaryColor").value ||
+                defaultStoreSettings.primaryColor;
+            const secondaryColor =
+                document.getElementById("secondaryColor").value ||
+                defaultStoreSettings.secondaryColor;
+            const currency =
+                document.getElementById("currency").value ||
+                defaultStoreSettings.currency;
+            const enableCart =
+                document.getElementById("enableCart").value ||
+                defaultStoreSettings.enableCart;
+            const enableFloatingCart =
+                document.getElementById("enableFloatingCart").value ||
+                defaultStoreSettings.enableFloatingCart;
+            const checkoutTitle =
+                document.getElementById("checkoutTitle").value ||
+                defaultStoreSettings.checkoutTitle;
+            const billingTitle =
+                document.getElementById("billingTitle").value ||
+                defaultStoreSettings.billingTitle;
+            const submitText =
+                document.getElementById("submitText").value ||
+                defaultStoreSettings.submitText;
+            const enableBilling =
+                document.getElementById("enableBilling").value ||
+                defaultStoreSettings.enableBilling;
+
+            // Generate HTML Code
+            let productHTML = "";
+            products.forEach((product) => {
+                productHTML += `
+                    <div data-swb-product 
+                         data-swb-product-sku="${product.sku}" 
+                         data-swb-product-name="${product.name}"
+                         data-swb-product-price="${product.price}"
+                         data-swb-product-add-cart-title="Add to Cart">
+                        <div data-swb-product-image>
+                            <img src="${product.image}" alt="${product.name}" class="aspect-video object-cover w-full">
+                        </div>
+                        <div data-swb-product-details>
+                            <div data-swb-product-name>
+                                <h4>${product.name}</h4>
+                            </div>
+                            <div data-swb-product-description>
+                                <p>${product.description}</p>
+                            </div>
+                            <div data-swb-product-price>
+                                <p>${currency} ${product.price}</p>
+                            </div>
+                            <div data-swb-product-buttons></div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            const generatedHTML = `
+                <div data-swb-catalog 
+                     data-swb-store-id="${storeId}" 
+                     data-swb-store="${storeName}" 
+                     data-swb-whatsapp="${whatsappNumber}"
+                     data-swb-color-primary="${primaryColor}"
+                     data-swb-color-secondary="${secondaryColor}"
+                     data-swb-currency="${currency}"
+                     data-swb-cart="${enableCart}"
+                     data-swb-cart-floating="${enableFloatingCart}"
+                     data-swb-checkout-title="${checkoutTitle}"
+                     data-swb-billing-title="${billingTitle}"
+                     data-swb-submit-text="${submitText}"
+                     data-swb-enable-billing="${enableBilling}"
+                     data-swb-custom-fields='${JSON.stringify(customFields)}'
+                     class="space-y-8">
+                    <div class="swb-grid senangwebs-buy-products">
+                        ${productHTML}
+                    </div>
+                </div>
+            `;
+
+            // Beautify the generated HTML code
+            const beautifiedHTML = html_beautify(generatedHTML, {
+                indent_size: 2,
+                indent_char: ' ',
+                max_preserve_newlines: 1,
+                preserve_newlines: true,
+                keep_array_indentation: true,
+                break_chained_methods: false,
+                indent_scripts: 'normal',
+                brace_style: 'expand',
+                space_before_conditional: true,
+                unescape_strings: false,
+                jslint_happy: false,
+                end_with_newline: true,
+                wrap_line_length: 0,
+                indent_inner_html: true,
+                comma_first: false,
+                e4x: false,
+                indent_empty_lines: false,
+                wrap_attributes: 'force-aligned',
+                wrap_attributes_indent_size: 5,
+                unformatted: ['code', 'pre'],
+                content_unformatted: ['pre', 'textarea'],
+                extra_liners: ['head', 'body', '/html']
+            });
+
+            document.getElementById("generatedCode").value = beautifiedHTML;
+            codeMirrorHTML.setValue(beautifiedHTML);
+
+            // Generate JSON Data
+            const jsonData = {
+                store: {
+                    storeId,
+                    storeName,
+                    whatsappNumber,
+                    primaryColor,
+                    secondaryColor,
+                    currency,
+                    enableCart,
+                    enableFloatingCart,
+                    checkoutTitle,
+                    billingTitle,
+                    submitText,
+                    enableBilling,
+                },
+                products,
+                customFields,
+            };
+
+            const jsonString = JSON.stringify(jsonData, null, 2);
+            document.getElementById("generatedJson").value = jsonString;
+            codeMirrorJSON.setValue(jsonString);
+        }
+
+        // Copy to clipboard function
+        function copyToClipboard(elementId) {
+            const textarea = document.getElementById(elementId);
+            textarea.select();
+            document.execCommand("copy");
+            alert("Copied to clipboard!");
+        }
+
+        // Initial output generation
+        generateOutput();
+    </script>
+</body>
+
+</html>
