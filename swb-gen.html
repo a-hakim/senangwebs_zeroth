@@ -4,13 +4,18 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
     <title>SenangWebs Buy WhatsApp E-commerce Code Generator</title>
-    <!-- CodeMirror CSS -->
+    
+    <link rel="apple-touch-icon" sizes="180x180" href="https://use.senangwebs.com/img/logo_icon.svg">
+    <link rel="shortcut icon" href="https://use.senangwebs.com/img/logo_icon.svg" type="image/x-icon">
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/theme/hopscotch.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
         integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap" rel="stylesheet">
@@ -62,31 +67,31 @@
         <!-- <section class="min-h-10 bg-dark border-b border-darker"></section> -->
         <section class="flex-grow flex flex-col lg:flex-row max-h-[calc(100vh-0rem)] overflow-hidden"
             x-data="{ panel: 'store' }">
-            <section class="min-w-12 flex flex-col bg-dark text-white/40 border-r border-darker text-sm">
-                <button type="button"
-                    class="hover:text-primary flex items-center justify-center aspect-square w-full group"
+            <section class="min-h-12 min-w-12 lg:max-w-12 flex lg:flex-col bg-dark text-white/40 border-r border-darker text-sm">
+                <button type="button" 
+                    class="hover:text-primary flex items-center justify-center aspect-square w-12 group"
                     onclick="alert('SenangWebs Zeroth')">
                     <img src="https://use.senangwebs.com/img/app_icon_inverse.png" alt=""
                         class="w-6 h-6 rounded-full grayscale group-hover:grayscale-0">
                 </button>
-                <button class="aspect-square w-full flex items-center justify-center" x-on:click="panel = 'store'"
-                    x-bind:class="panel === 'store' ? 'bg-darker text-primary' : ''">
+                <button title="Store Settings" class="aspect-square w-12 flex items-center justify-center hover:bg-black/15 hover:text-primary" x-on:click="panel = 'store'"
+                    x-bind:class="panel === 'store' ? 'bg-black/15 text-primary' : ''">
                     <i class="fas fa-shopping-cart"></i>
                 </button>
-                <button class="aspect-square w-full flex items-center justify-center" x-on:click="panel = 'products'"
-                    x-bind:class="panel === 'products' ? 'bg-darker text-primary' : ''">
+                <button title="Products Management" class="aspect-square w-12 flex items-center justify-center hover:bg-black/15 hover:text-primary" x-on:click="panel = 'products'"
+                    x-bind:class="panel === 'products' ? 'bg-black/15 text-primary' : ''">
                     <i class="fas fa-box"></i>
                 </button>
-                <button class="aspect-square w-full flex items-center justify-center" x-on:click="panel = 'custom'"
-                    x-bind:class="panel === 'custom' ? 'bg-darker text-primary' : ''">
+                <button title="Custom Fields" class="aspect-square w-12 flex items-center justify-center hover:bg-black/15 hover:text-primary" x-on:click="panel = 'custom'"
+                    x-bind:class="panel === 'custom' ? 'bg-black/15 text-primary' : ''">
                     <i class="fas fa-stream"></i>
                 </button>
                 <div class="flex-grow"></div>
-                <button id="export-json-btn" class="aspect-square w-full flex items-center justify-center">
+                <button id="export-json-btn" title="Save JSON" class="aspect-square w-12 flex items-center justify-center hover:bg-black/15 hover:text-primary">
                     <i class="fas fa-save"></i>
                 </button>
-                <button id="import-json-btn" class="aspect-square w-full flex items-center justify-center">
-                    <i class="fas fa-file"></i>
+                <button id="import-json-btn" title="Load JSON" class="aspect-square w-12 flex items-center justify-center hover:bg-black/15 hover:text-primary">
+                    <i class="fas fa-file-upload"></i>
                 </button>
             </section>
 
@@ -138,15 +143,15 @@
                                     <option value="VND">VND - Vietnamese Dong</option>
                                 </select>
                             </div>
-                            <div>
-                                <label class="block text-sm">Primary Color</label>
+                            <div class="flex items-center gap-2">
                                 <input type="color" id="primaryColor" value="#166534"
-                                    class="mt-1 block w-full rounded-md bg-[#131316] px-2 py-1 text-sm h-8 flex items-center" />
+                                    class="block w-16 rounded-md bg-[#131316] px-2 py-1 text-sm h-8 flex items-center" />
+                                <label class="block text-sm">Primary Color</label>
                             </div>
-                            <div>
-                                <label class="block text-sm">Secondary Color</label>
+                            <div class="flex items-center gap-2">
                                 <input type="color" id="secondaryColor" value="#DC2626"
-                                    class="mt-1 block w-full rounded-md bg-[#131316] px-2 py-1 text-sm h-8 flex items-center" />
+                                    class="block w-16 rounded-md bg-[#131316] px-2 py-1 text-sm h-8 flex items-center" />
+                                <label class="block text-sm">Secondary Color</label>
                             </div>
                         </div>
                     </div>
@@ -327,12 +332,12 @@
                         </select> -->
                     </div>
                     <div class="flex items-center">
-                        <button x-show="tab == 'html'" type="button" onclick="copyGeneratedCode('html')"
+                        <button title="Copy Generated HTML" x-show="tab == 'html'" type="button" onclick="copyGeneratedCode('html')"
                             class="px-3 h-10 flex gap-2 items-center justify-center text-neutral-400 bg-black bg-opacity-20 hover:bg-opacity-80 hover:text-primary"><i
-                                class="fas fa-save"></i>Copy HTML</button>
-                        <button x-show="tab == 'json'" type="button" onclick="copyGeneratedCode('json')"
+                                class="fas fa-copy"></i>Copy</button>
+                        <button title="Copy Generated JSON" x-show="tab == 'json'" type="button" onclick="copyGeneratedCode('json')"
                             class="px-3 h-10 flex gap-2 items-center justify-center text-neutral-400 bg-black bg-opacity-20 hover:bg-opacity-80 hover:text-primary"><i
-                                class="fas fa-save"></i>Copy JSON</button>
+                                class="fas fa-copy"></i>Copy</button>
                     </div>
                 </div>
                 <!-- Generated Code -->
@@ -734,6 +739,95 @@
 
         // Initial output generation
         generateOutput();
+
+        // Export JSON functionality
+        document.getElementById('export-json-btn').addEventListener('click', () => {
+            const jsonData = {
+                store: {
+                    storeId: document.getElementById('storeId').value,
+                    storeName: document.getElementById('storeName').value,
+                    whatsappNumber: document.getElementById('whatsappNumber').value,
+                    primaryColor: document.getElementById('primaryColor').value,
+                    secondaryColor: document.getElementById('secondaryColor').value,
+                    currency: document.getElementById('currency').value,
+                    enableCart: document.getElementById('enableCart').value,
+                    enableFloatingCart: document.getElementById('enableFloatingCart').value,
+                    checkoutTitle: document.getElementById('checkoutTitle').value,
+                    billingTitle: document.getElementById('billingTitle').value,
+                    submitText: document.getElementById('submitText').value,
+                    enableBilling: document.getElementById('enableBilling').value,
+                },
+                products: products,
+                customFields: customFields,
+            };
+
+            const jsonString = JSON.stringify(jsonData, null, 2);
+            const blob = new Blob([jsonString], {
+                type: 'application/json'
+            });
+            const url = URL.createObjectURL(blob);
+
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = jsonData.store.storeId + '-swb.json';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        });
+
+        // Import JSON functionality
+        document.getElementById('import-json-btn').addEventListener('click', () => {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = '.json';
+
+            input.onchange = (e) => {
+                const file = e.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = (event) => {
+                        try {
+                            const jsonData = JSON.parse(event.target.result);
+
+                            // Update store settings
+                            document.getElementById('storeId').value = jsonData.store.storeId;
+                            document.getElementById('storeName').value = jsonData.store.storeName;
+                            document.getElementById('whatsappNumber').value = jsonData.store.whatsappNumber;
+                            document.getElementById('primaryColor').value = jsonData.store.primaryColor;
+                            document.getElementById('secondaryColor').value = jsonData.store.secondaryColor;
+                            document.getElementById('currency').value = jsonData.store.currency;
+                            document.getElementById('enableCart').value = jsonData.store.enableCart;
+                            document.getElementById('enableFloatingCart').value = jsonData.store
+                                .enableFloatingCart;
+                            document.getElementById('checkoutTitle').value = jsonData.store.checkoutTitle;
+                            document.getElementById('billingTitle').value = jsonData.store.billingTitle;
+                            document.getElementById('submitText').value = jsonData.store.submitText;
+                            document.getElementById('enableBilling').value = jsonData.store.enableBilling;
+
+                            // Update products
+                            products = jsonData.products || [];
+                            renderProducts();
+
+                            // Update custom fields
+                            customFields = jsonData.customFields || [];
+                            renderCustomFields();
+
+                            // Regenerate the output
+                            generateOutput();
+
+                            showNotification('JSON file imported successfully!');
+                        } catch (error) {
+                            console.error('Error parsing JSON file:', error);
+                            showNotification('Failed to import JSON file. Please check the file format.');
+                        }
+                    };
+                    reader.readAsText(file);
+                }
+            };
+
+            input.click();
+        });
     </script>
 </body>
 
