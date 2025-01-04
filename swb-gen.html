@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>WhatsApp E-commerce Code Generator</title>
+    <title>SenangWebs Buy WhatsApp E-commerce Code Generator</title>
     <!-- CodeMirror CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/theme/hopscotch.min.css" />
@@ -35,10 +35,19 @@
         body {
             font-family: 'Outfit', sans-serif;
         }
+
         .CodeMirror {
             height: 100%;
             max-height: calc(100vh - 2.5rem);
             overflow: none;
+        }
+
+        label[for="productSku"]::after,
+        label[for="productName"]::after,
+        label[for="productPrice"]::after,
+        label[for="fieldName"]::after {
+            content: " *";
+            color: red;
         }
     </style>
 
@@ -54,8 +63,11 @@
         <section class="flex-grow flex flex-col lg:flex-row max-h-[calc(100vh-0rem)] overflow-hidden"
             x-data="{ panel: 'store' }">
             <section class="min-w-12 flex flex-col bg-dark text-white/40 border-r border-darker text-sm">
-                <button type="button" class="hover:text-primary flex items-center justify-center aspect-square w-full group" onclick="alert('SenangWebs Zeroth')">
-                    <img src="https://use.senangwebs.com/img/app_icon_inverse.png" alt="" class="w-6 h-6 rounded-full grayscale group-hover:grayscale-0">
+                <button type="button"
+                    class="hover:text-primary flex items-center justify-center aspect-square w-full group"
+                    onclick="alert('SenangWebs Zeroth')">
+                    <img src="https://use.senangwebs.com/img/app_icon_inverse.png" alt=""
+                        class="w-6 h-6 rounded-full grayscale group-hover:grayscale-0">
                 </button>
                 <button class="aspect-square w-full flex items-center justify-center" x-on:click="panel = 'store'"
                     x-bind:class="panel === 'store' ? 'bg-darker text-primary' : ''">
@@ -68,6 +80,13 @@
                 <button class="aspect-square w-full flex items-center justify-center" x-on:click="panel = 'custom'"
                     x-bind:class="panel === 'custom' ? 'bg-darker text-primary' : ''">
                     <i class="fas fa-stream"></i>
+                </button>
+                <div class="flex-grow"></div>
+                <button id="export-json-btn" class="aspect-square w-full flex items-center justify-center">
+                    <i class="fas fa-save"></i>
+                </button>
+                <button id="import-json-btn" class="aspect-square w-full flex items-center justify-center">
+                    <i class="fas fa-file"></i>
                 </button>
             </section>
 
@@ -195,17 +214,17 @@
                             <div class="grid grid-cols-2 gap-2">
                                 <div>
                                     <label class="block text-sm">Product SKU</label>
-                                    <input type="text" id="productSku" placeholder="e.g., KM001"
+                                    <input type="text" id="productSku" placeholder="e.g., KM001" required
                                         class="mt-1 block w-full rounded-md bg-[#131316] px-2 py-1 text-sm h-8 flex items-center" />
                                 </div>
                                 <div>
                                     <label class="block text-sm">Product Name</label>
-                                    <input type="text" id="productName" placeholder="e.g., Kuih Lapis"
+                                    <input type="text" id="productName" placeholder="e.g., Kuih Lapis" required
                                         class="mt-1 block w-full rounded-md bg-[#131316] px-2 py-1 text-sm h-8 flex items-center" />
                                 </div>
                                 <div>
                                     <label class="block text-sm">Product Price</label>
-                                    <input type="number" id="productPrice" placeholder="e.g., 15.00"
+                                    <input type="number" id="productPrice" placeholder="e.g., 15.00" required
                                         class="mt-1 block w-full rounded-md bg-[#131316] px-2 py-1 text-sm h-8 flex items-center" />
                                 </div>
                                 <div>
@@ -246,7 +265,7 @@
                             <div class="grid grid-cols-1 md:grid-cols-4 gap-2">
                                 <div>
                                     <label class="block text-sm">Field Name</label>
-                                    <input type="text" id="fieldName" placeholder="e.g., delivery_time"
+                                    <input type="text" id="fieldName" placeholder="e.g., delivery_time" required
                                         class="mt-1 block w-full rounded-md bg-[#131316] px-2 py-1 text-sm h-8 flex items-center" />
                                 </div>
                                 <div>
@@ -290,7 +309,7 @@
                 </div>
             </aside>
 
-            <div class="flex flex-col flex-grow text-white" x-data="{ tab: 'html' }">
+            <div class="flex flex-col flex-grow text-white" x-data="{ tab: 'html' }" x-ref="tabContainer">
                 <div class="flex gap-2 bg-dark text-xs h-10 font-semibold">
                     <button class="px-3 h-10 flex items-center justify-center text-neutral-400"
                         x-bind:class="tab == 'html' ? 'border-b-2 border-primary text-primary' : ''"
@@ -308,9 +327,12 @@
                         </select> -->
                     </div>
                     <div class="flex items-center">
-                        <button id="swcbuilder-save-btn"
+                        <button x-show="tab == 'html'" type="button" onclick="copyGeneratedCode('html')"
                             class="px-3 h-10 flex gap-2 items-center justify-center text-neutral-400 bg-black bg-opacity-20 hover:bg-opacity-80 hover:text-primary"><i
-                                class="fas fa-save"></i>Copy</button>
+                                class="fas fa-save"></i>Copy HTML</button>
+                        <button x-show="tab == 'json'" type="button" onclick="copyGeneratedCode('json')"
+                            class="px-3 h-10 flex gap-2 items-center justify-center text-neutral-400 bg-black bg-opacity-20 hover:bg-opacity-80 hover:text-primary"><i
+                                class="fas fa-save"></i>Copy JSON</button>
                     </div>
                 </div>
                 <!-- Generated Code -->
@@ -423,13 +445,24 @@
         }
 
         function addProduct() {
+            const sku = document.getElementById("productSku").value.trim();
+            const name = document.getElementById("productName").value.trim();
+            const price = document.getElementById("productPrice").value.trim();
+
+            // Validate required fields
+            if (!sku || !name || !price) {
+                alert("Product SKU, Name, and Price are required!");
+                return; // Stop the function if any field is empty
+            }
+
             const product = {
-                sku: document.getElementById("productSku").value,
-                name: document.getElementById("productName").value,
-                price: document.getElementById("productPrice").value,
-                image: document.getElementById("productImage").value,
-                description: document.getElementById("productDescription").value,
+                sku: sku,
+                name: name,
+                price: price,
+                image: document.getElementById("productImage").value.trim(),
+                description: document.getElementById("productDescription").value.trim(),
             };
+
             products.push(product);
             renderProducts();
             document.getElementById("productForm").reset(); // Clear the form
@@ -444,7 +477,7 @@
                 <div class="flex items-center justify-between p-2 bg-white/10 rounded-md">
                     <span>${product.name} (${product.sku}) - ${product.price}</span>
                     <div>
-                        <button onclick="editProduct(${index})" class="text-blue-500 hover:text-blue-700">Edit</button>
+                        <button onclick="editProduct(${index})" class="text-primary hover:opacity-80">Edit</button>
                         <button onclick="deleteProduct(${index})" class="text-red-500 hover:text-red-700 ml-2">Delete</button>
                     </div>
                 </div>
@@ -473,14 +506,23 @@
         }
 
         function addCustomField() {
+            const fieldName = document.getElementById("fieldName").value.trim();
+
+            // Validate required field
+            if (!fieldName) {
+                alert("Field Name is required!");
+                return; // Stop the function if the field is empty
+            }
+
             const field = {
-                name: document.getElementById("fieldName").value,
+                name: fieldName,
                 type: document.getElementById("fieldType").value,
-                placeholder: document.getElementById("fieldPlaceholder").value,
+                placeholder: document.getElementById("fieldPlaceholder").value.trim(),
                 required: document.getElementById("fieldRequired").value === "true",
                 options: document.getElementById("fieldType").value === "select" ?
                     document.getElementById("fieldOptions").value.split(",") : [],
             };
+
             customFields.push(field);
             renderCustomFields();
             generateOutput();
@@ -652,8 +694,42 @@
         function copyToClipboard(elementId) {
             const textarea = document.getElementById(elementId);
             textarea.select();
-            document.execCommand("copy");
-            alert("Copied to clipboard!");
+            textarea.setSelectionRange(0, 99999);
+
+            try {
+                navigator.clipboard.writeText(textarea.value);
+                showNotification("Copied to clipboard!");
+            } catch (err) {
+                console.error("Failed to copy text: ", err);
+                showNotification("Failed to copy text. Please try again.");
+            }
+        }
+
+        function showNotification(message) {
+            const notification = document.createElement("div");
+            notification.textContent = message;
+            notification.style.position = "fixed";
+            notification.style.bottom = "20px";
+            notification.style.right = "20px";
+            notification.style.backgroundColor = "#00FF99";
+            notification.style.color = "#000";
+            notification.style.padding = "10px";
+            notification.style.borderRadius = "5px";
+            notification.style.zIndex = "1000";
+            document.body.appendChild(notification);
+
+            // Remove the notification after 2 seconds
+            setTimeout(() => {
+                document.body.removeChild(notification);
+            }, 2000);
+        }
+
+        function copyGeneratedCode(type) {
+            if (type === "html") {
+                copyToClipboard("generatedCode");
+            } else if (type === "json") {
+                copyToClipboard("generatedJson");
+            }
         }
 
         // Initial output generation
